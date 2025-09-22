@@ -10,7 +10,7 @@ import {
 } from '@solana/wallet-adapter-wallets';
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const endpoint = clusterApiUrl("devnet");
+    const endpoint = "http://localhost:8899";
     const wallets = useMemo(() => [
         new PhantomWalletAdapter(),
         new SolflareWalletAdapter(),
