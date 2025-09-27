@@ -84,6 +84,25 @@ async function transferTokens(
     console.log(`Transfer Transaction: https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`);
 }
 
+// 销毁代币
+async function burnTokens(
+    connection: Connection,
+    payer: Keypair,
+    account: PublicKey,
+    mint: PublicKey,
+    owner: Keypair,
+    amount: number
+) {
+    const transactionSignature = await token.burn(
+        connection,
+        payer,
+        account,
+        mint,
+        owner,
+        amount
+    );
+}
+
 async function main() {
     const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
     const user = getKeypairFromEnvironment("SECRET_KEY");
@@ -141,6 +160,16 @@ async function main() {
     );
     console.log(`从 ${tokenAccount.address} 交易 100 代币到账户 ${receiverTokenAccount.address}`);
     console.log("Done.");
+
+    // 销毁代币
+    await burnTokens(
+        connection,
+        user,
+        tokenAccount.address,
+        mint,
+        user,
+        800 * 10 ** mintInfo.decimals
+    );
 }
 
 await main()
